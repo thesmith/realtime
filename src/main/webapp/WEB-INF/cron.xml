@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+  <cron>
+    <url>/latest/retrieve</url>
+    <description>Retrieve latest</description>
+    <schedule>every minute</schedule>
+  </cron>
+</cronentries>

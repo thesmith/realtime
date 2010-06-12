@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+  xmlns:p="http://www.springframework.org/schema/p"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+  <bean id="entityManagerFactory"
+    class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean"
+    lazy-init="true">
+    <property name="persistenceUnitName" value="transactions-optional" />
+  </bean>
+  <bean name="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <property name="entityManagerFactory" ref="entityManagerFactory" />
+  </bean>
+
+  <bean
+    class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+  
+  <bean id="cacheManager" class="net.sf.jsr107cache.CacheManager" factory-method="getInstance"/>
+  <bean id="cacheFactory" factory-bean="cacheManager" factory-method="getCacheFactory" />
+
+  <context:component-scan base-package="thesmith.realtime" />
+  <tx:annotation-driven />
+
+  <!--
+    Enables /[resource]/[action] to [Resource]Controller class mapping
+  -->
+  <bean id="classnameControllerMappings"
+    class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
+
+  <!-- Enables annotated POJO @Controllers -->
+  <bean
+    class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+  <bean
+    class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+
+  <bean id="freemarkerConfig"
+    class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+    <property name="templateLoaderPath" value="/WEB-INF/freemarker/" />
+    <property name="configLocation" value="classpath:freemarker.properties" />
+  </bean>
+
+  <bean id="contentNegotiatingViewResolver"
+    class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+    <property name="order" value="1" />
+    <property name="defaultContentType" value="text/html" />
+    <property name="mediaTypes">
+      <map>
+        <entry key="ftl" value="text/html" />
+        <entry key="xml" value="application/xml" />
+        <entry key="json" value="application/json" />
+        <entry key="atom" value="application/atom+xml" />
+        <entry key="rss" value="application/rss+xml" />
+      </map>
+    </property>
+    <property name="defaultViews">
+      <list>
+        <bean
+          class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+          <property name="contentType" value="application/json" />
+        </bean>
+      </list>
+    </property>
+    <property name="viewResolvers">
+      <list>
+        <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+          <property name="contentType" value="text/html" />
+          <property name="order" value="2" />
+          <property name="cache" value="true" />
+          <property name="prefix" value="" />
+          <property name="suffix" value=".ftl" />
+          <property name="exposeSpringMacroHelpers" value="true" />
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="messageSource"
+    class="org.springframework.context.support.ResourceBundleMessageSource">
+    <property name="basenames">
+      <list>
+        <value>messages</value>
+        <value>errors</value>
+      </list>
+    </property>
+  </bean>
+</beans>
