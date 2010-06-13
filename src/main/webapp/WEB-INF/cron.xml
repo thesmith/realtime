@@ -3,6 +3,12 @@
   <cron>
     <url>/latest/retrieve</url>
     <description>Retrieve latest</description>
-    <schedule>every minute</schedule>
+    <schedule>every 2 minutes</schedule>
+  </cron>
+  
+  <cron>
+    <url>/latest/send</url>
+    <description>Retrieve latest</description>
+    <schedule>every 1 minutes</schedule>
   </cron>
 </cronentries>

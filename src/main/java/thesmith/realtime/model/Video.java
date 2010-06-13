@@ -14,6 +14,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import lombok.Data;
 
 import com.google.appengine.api.datastore.Key;
@@ -66,5 +69,23 @@ public @Data class Video implements Serializable, Cloneable {
   
   public String getDesc() {
       return this.desc.getValue();
+  }
+  
+  public String toXML() {
+      return "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><video><uri>"+uri+"</uri><title>"+title+"</title><desc>"+desc.getValue()+"</desc><image>"+image+"</image><link>"+link+"</link></video>";
+  }
+  
+  public String toJson() {
+      String json = "{\"uri\":\""+enc(uri)+"\",\"title\":\""+enc(title)+"\",\"desc\":\""+enc(desc.getValue())+"\",\"image\":\""+enc(image)+"\",\"link\":\""+enc(link)+"\"}";
+      try {
+        return new JSONObject(json).toString();
+    } catch (JSONException e) {
+        json = "{\"uri\":\""+enc(uri)+"\",\"title\":\""+enc(title)+"\",\"image\":\""+enc(image)+"\",\"link\":\""+enc(link)+"\"}";
+        return json;
+    }
+  }
+  
+  private String enc(String in) {
+      return in.replace("\"", "").replace("'", "");
   }
 }

@@ -1,0 +1,78 @@
+@import url("reset.css");
+
+#videos {
+	overflow: hidden;
+	height: 500px;
+}
+
+#video {
+	position: relative;
+	padding: 20px;
+	width: 625px;
+	height: 352px;
+	margin: 0px auto;
+	left: 0px;
+}
+
+.title {
+  background: url(http://www.rattlecentral.com/wp-content/themes/rattlecentral/images/transparent.png);
+  position: absolute;
+  width: 200px;
+  color: lightgrey;
+  padding: 12px;
+  top: 40px;
+  left: 10px;
+}
+
+.title a {
+	color: white;
+}
+
+.image {
+}
+
+.desc {
+	color: lightgrey;
+	background: url(http://www.rattlecentral.com/wp-content/themes/rattlecentral/images/transparent.png);
+	padding: 12px;
+	width: 400px;
+	text-align: right;
+	position: absolute;
+	top: 320px;
+	right: 10px;
+}
+
+input { 
+	border-bottom-left-radius: 5px 5px; 
+	border-bottom-right-radius: 5px 5px; 
+	border-top-left-radius: 5px 5px; 
+	border-top-right-radius: 5px 5px; 
+	border: 1px solid rgb(143, 143, 143); 
+	font-size: 1.0em; 
+	padding: 2px; 
+	width: 150px; 
+}
+
+input.submit { 
+	margin-left: 10px; 
+	background-color:#3392ce; 
+	background-image:url(http://www.eventhorizon.me/gfx/submitbg.png); 
+	background-repeat:repeat-x; background-position:0 center; border:1px solid #2c8ecc; color:white; 
+	font-size:1.0em; letter-spacing:.05em; cursor:pointer; 
+	border-bottom-left-radius: 5px 5px; 
+	border-bottom-right-radius: 5px 5px; 
+	border-top-left-radius: 5px 5px; 
+	border-top-right-radius: 5px 5px;
+}
+
+input.submit:hover { 
+	background-position: -450px 50%;
+}
+
+#login {
+	text-align: center;
+}
+
+#log {
+	display: none;
+}

@@ -1,3 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <datastore-indexes autoGenerate="true">
+  <datastore-index kind="video" ancestor="false">
+    <property name="sent" direction="asc" />
+    <property name="created" direction="asc" />
+  </datastore-index>
 </datastore-indexes>

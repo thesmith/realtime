@@ -49,9 +49,16 @@ public class VideoService {
                     if (!item.has("title") || !item.has("description") || !item.has("thumbnail") || !item.has("uri")) {
                         continue;
                     }
-                    video.setTitle(item.getString("title"));
+                    
+                    String title = "";
+                    if (item.has("brand")) {
+                        JSONObject brand = item.getJSONObject("brand");
+                        title = brand.getString("title") + " - ";
+                    }
+                    
+                    video.setTitle(title+item.getString("title"));
                     video.setDesc(item.getString("description"));
-                    video.setImage(item.getString("thumbnail"));
+                    video.setImage(item.has("image") ? item.getString("image") : item.getString("thumbnail"));
                     video.setUri(item.getString("uri"));
 
                     String link = null;
@@ -79,6 +86,7 @@ public class VideoService {
     
     public void markSent(Video video) {
         video.setSent(true);
+        video.setCreated(new Date());
         em.merge(video);
     }
 
@@ -93,11 +101,11 @@ public class VideoService {
 
     @SuppressWarnings("unchecked")
     public List<Video> videosToSend(int limit) {
-        return em.createQuery("select v from Video v where v.sent = false order by v.created asc").setMaxResults(limit)
+        return em.createQuery("select v from Video v order by v.created asc").setMaxResults(limit)
                         .getResultList();
     }
     
     public Video videoToSend() {
-        return (Video) em.createQuery("select v from Video v where v.sent = false order by v.created asc").setMaxResults(1).getSingleResult();
+        return (Video) em.createQuery("select v from Video v order by v.created asc").setMaxResults(1).getSingleResult();
     }
 }
