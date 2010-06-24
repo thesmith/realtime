@@ -58,7 +58,6 @@ function onMessage(msg) {
 			try {
 	      var video = eval('('+body+')');
 	      add_video(video);
-	      setTimeout(function() { startUpdating(); }, 2000);
 	    } catch(e) {
 				log('Unable to parse: '+'('+body+')');
 	    }
@@ -91,7 +90,6 @@ $(document).ready(function () {
 	    if (button.value == 'connect') {
 	      button.value = 'disconnect';
 	      connection.connect($('#jid').get(0).value, $('#pass').get(0).value, onConnect);
-	      startUpdating();
 	    } else {
 	      button.value = 'connect';
 	      connection.disconnect();
