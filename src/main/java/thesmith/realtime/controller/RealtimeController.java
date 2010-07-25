@@ -97,7 +97,6 @@ public class RealtimeController {
         boolean messagesSent = false;
 
         for (JID jid : getJids()) {
-            jid = new JID("ben.thesmith@gmail.com");
             Message msg = new MessageBuilder()
                     .withRecipientJids(jid)
                     .withBody(video.toString())
