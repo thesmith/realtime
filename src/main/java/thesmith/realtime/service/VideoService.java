@@ -21,6 +21,7 @@ import com.google.appengine.repackaged.com.google.common.collect.Lists;
 @Transactional
 @Component
 public class VideoService {
+    private static final String URL = "http://atlasapi.org/2.0/items.json?playlist.uri=http://ref.atlasapi.org/hotness/twitter&location.transportType=link";
 
     @PersistenceContext
     private EntityManager em;
@@ -28,8 +29,7 @@ public class VideoService {
     public List<Video> retrieveLatestVideos() {
         List<Video> videos = Lists.newArrayList();
         try {
-            URL url = new URL(
-                            "http://api.uriplay.org/2.0/items.json?playlist.uri=http://uriplay.org/hotness/twitter&location.transportType=link");
+            URL url = new URL(URL);
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
             StringBuffer json = new StringBuffer();
             String line;

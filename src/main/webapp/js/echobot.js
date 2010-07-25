@@ -3,7 +3,7 @@ var connection = null;
 
 function log(msg) {
 	try {
-    $('#log').html(document.createTextNode(msg));
+    $('#log').append(document.createTextNode(msg));
 	} catch (e) {
 		$('#log').html('error outputting: '+msg);
 	}
@@ -78,18 +78,20 @@ $(document).ready(function () {
     connection = new Strophe.Connection(BOSH_SERVICE);
 
     // Uncomment the following lines to spy on the wire traffic.
-    //connection.rawInput = function (data) { log('RECV: ' + data); };
-    //connection.rawOutput = function (data) { log('SEND: ' + data); };
+    connection.rawInput = function (data) { log('RECV: ' + data); };
+    connection.rawOutput = function (data) { log('SEND: ' + data); };
 
     // Uncomment the following line to see all the debug output.
-    //Strophe.log = function (level, msg) { log('LOG: ' + msg); };
+    Strophe.log = function (level, msg) { log('LOG: ' + msg); };
 
 
     $('#connect').bind('click', function () {
 	    var button = $('#connect').get(0);
 	    if (button.value == 'connect') {
 	      button.value = 'disconnect';
-	      connection.connect($('#jid').get(0).value, $('#pass').get(0).value, onConnect);
+	      registerJid($('#jid').get(0).value, function() {
+	        connection.connect($('#jid').get(0).value, $('#pass').get(0).value, onConnect);
+	      });
 	    } else {
 	      button.value = 'connect';
 	      connection.disconnect();
@@ -108,4 +110,15 @@ function startUpdating() {
 		  log("error");
 		}
 	});
+}
+
+function registerJid(jid, success) {
+  $.ajax({
+    url: '/register?jid='+jid,
+    cache: false,
+    success: success, 
+    error: function(error) {
+      log("error");
+    }
+  });
 }

@@ -71,6 +71,10 @@ public @Data class Video implements Serializable, Cloneable {
       return this.desc.getValue();
   }
   
+  public String toString() {
+      return "*"+title+"*\n"+desc.getValue()+"\nWatch it here: "+link+"\n\n";
+  }
+  
   public String toXML() {
       return "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><video><uri>"+uri+"</uri><title>"+title+"</title><desc>"+desc.getValue()+"</desc><image>"+image+"</image><link>"+link+"</link></video>";
   }

@@ -74,5 +74,5 @@ input.submit:hover {
 }
 
 #log {
-	display: none;
+	display: block;
 }
